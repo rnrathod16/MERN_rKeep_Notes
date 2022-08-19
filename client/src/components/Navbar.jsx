@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../App';
 
-const Navbar = () => {
+const Navbar = (props) => {
     const { state, dispatch } = useContext(UserContext);
 
     const Nav = () => {
@@ -39,6 +39,7 @@ const Navbar = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <NavLink className="navbar-brand" exact to="/"> {props.name ? "Welcome " + props.name : ""}</NavLink>
                             <li className="nav-item">
                                 <NavLink className="nav-link" exact to="/">Notes</NavLink>
                             </li>

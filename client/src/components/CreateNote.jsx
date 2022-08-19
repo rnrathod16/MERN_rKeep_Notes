@@ -4,7 +4,7 @@ import { UserContext } from '../App';
 import Notes from './Notes';
 import UserNote from './UserNote';
 
-const CreateNote = () => {
+const CreateNote = (props) => {
     const { state, dispatch } = useContext(UserContext);
 
     const [getData, setgetData] = useState()
@@ -15,6 +15,7 @@ const CreateNote = () => {
 
     const [arr, setArr] = useState([]);
     const [not, setnot] = useState([]);
+
 
 
     const handelInp = (e) => {
@@ -69,6 +70,7 @@ const CreateNote = () => {
             const statusNum = result.status;
             const data = await result.json();
 
+            props.setName(data.userName);
             setnot(data.no);
 
             setgetData(statusNum);
@@ -123,6 +125,24 @@ const CreateNote = () => {
 
     }
 
+    const deletNote = async (idN) => {
+        const idDel = idN;
+
+        try {
+            const result = await fetch('/deletenote', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    _id: idDel
+                })
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <form className='container mt-5 noteContainer'>
@@ -140,7 +160,7 @@ const CreateNote = () => {
                 alignItems: "center",
                 margin: "auto"
             }}>{getData !== 401 ? not.map((val, id) => {
-                return <UserNote value={val} key={id} idx={id} fun={del} />
+                return <UserNote value={val} key={id} idx={val._id} fun={deletNote} />
             }) : arr.map((val, id) => {
                 return <Notes value={val} key={id} idx={id} fun={del} />
             })}

@@ -46,7 +46,7 @@ const Login = () => {
                 throw new Error(msg.messgae);
             }
 
-            window.alert(msg.message);
+            // window.alert(msg.message);
 
             dispatch({ type: "USER", payload: true });
             navigate("/", { replace: "true" })

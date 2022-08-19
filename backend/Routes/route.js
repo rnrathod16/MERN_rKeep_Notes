@@ -101,7 +101,21 @@ route.post('/ab', middleware, async(req, res) => {
 
 route.get("/ab", middleware, (req, res) => {
     // res.status(200).send(req.rootUser.name);
-    res.status(200).json({ message: req._id, no: req.userNote });
+    res.status(200).json({ message: req._id, no: req.userNote, userName: req.name });
+
+})
+
+route.post("/deletenote", middleware, async(req, res) => {
+    // res.status(200).send(req.rootUser.name);
+    const idelete = req.body;
+    try {
+        const result = await Note.deleteOne({ _id: idelete });
+        if (!result) {
+            res.status(501);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 
 })
 

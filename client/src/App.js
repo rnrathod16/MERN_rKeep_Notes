@@ -9,18 +9,21 @@ import About from './components/About';
 // import Footer from './components/Footer';
 import { createContext, useReducer } from 'react';
 import { initialState, reducer } from './reducer/reducer';
+import { useState } from 'react';
 
 export const UserContext = createContext();
 
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [name, setName] = useState();
+
   return (
     <>
       <UserContext.Provider value={{ state, dispatch }}>
-        <Navbar />
+        <Navbar name={name} />
         <Routes>
-          <Route exact path='/' element={<CreateNote />} />
+          <Route exact path='/' element={<CreateNote setName={setName} />} />
 
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup />} />

@@ -7,7 +7,6 @@ const middleware = async(req, res, next) => {
     try {
 
         const token = req.cookies.jwtoken;
-        console.log(token);
         const verifyToken = await jwt.verify(token, process.env.SECRET_KEY);
 
         const result = await User.findOne({ _id: verifyToken._id, token });
@@ -20,8 +19,8 @@ const middleware = async(req, res, next) => {
 
         req._id = result._id;
         req.rootUser = result;
+        req.name = result.name;
         req.userNote = userNotes;
-        console.log(result);
         next();
 
     } catch (error) {
