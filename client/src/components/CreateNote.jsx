@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
+import { UserContext } from '../App';
 import Notes from './Notes';
 import UserNote from './UserNote';
 
 const CreateNote = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const [getData, setgetData] = useState()
     const [note, setNote] = useState({
         noteTitle: "",
@@ -69,6 +72,10 @@ const CreateNote = () => {
             setnot(data.no);
 
             setgetData(statusNum);
+            if (statusNum !== 401) {
+
+                dispatch({ type: "USER", payload: true });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -76,7 +83,7 @@ const CreateNote = () => {
 
     useEffect(() => {
         getNotes();
-    }, [])
+    })
 
 
     const postData = async (e) => {
@@ -104,6 +111,7 @@ const CreateNote = () => {
                 throw new Error(msg);
             }
 
+            dispatch({ type: "USER", payload: false });
             setNote({
                 noteTitle: "",
                 noteDesc: ""
